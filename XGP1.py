@@ -56,7 +56,7 @@ print("W：最好是全新ms账号 登陆过Xbox或者设置过ID或付款方式
 Xbox = input("")
 print("正在启动浏览器(除非控制台要求操作页面，请不要在任何时候操作浏览器的任何部分！！))")
 Xbox_User = 'AzusaZi' + randomUsername(6)
-IGN = 'A' + randomUsername(2) + 'B' + randomUsername(2) + 'D' + randomUsername(5)
+IGN = 'AzusaZi' + randomUsername(6)
 
 # 设置Edge浏览器驱动
 edge_options = webdriver.EdgeOptions()
