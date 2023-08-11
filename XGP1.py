@@ -44,7 +44,8 @@ print('''
 [+]新增断点功能 位于
    1.支付宝绑定检测页面
    2.付款方式无效检测页面(一般不会触发)
-   2.XboxID检测页面
+   3.XboxID检测页面
+   4.账号姓名自动填写
 ''')
 
 # 输入邮箱密码是否已经注册xbox
@@ -52,11 +53,10 @@ acc = input('Account:')
 parts = acc.split("----")
 Email = parts[0]
 Password = parts[1]
-print("W：最好是全新ms账号 登陆过Xbox或者设置过ID或付款方式的账号容易发生错误，按下回车继续")
-Xbox = input("")
+print("W：最好是全新ms账号 登陆过Xbox或者设置过ID或付款方式的账号容易发生错误")
 print("正在启动浏览器(除非控制台要求操作页面，请不要在任何时候操作浏览器的任何部分！！))")
 Xbox_User = 'AzusaZi' + randomUsername(6)
-IGN = 'AzusaZi' + randomUsername(6)
+IGN = 'A' + randomUsername(2) + 'B' + randomUsername(2) + 'D' + randomUsername(5)
 
 # 设置Edge浏览器驱动
 edge_options = webdriver.EdgeOptions()
@@ -85,9 +85,8 @@ input_email = driver.find_element(By.NAME,'loginfmt').send_keys(Email)
 # 点击下一步
 print("点击下一步")
 next_button = driver.find_element(By.ID,'idSIButton9').click()
-time.sleep(2)
+time.sleep(4)
 # 输入密码
-
 print("输入密码")
 input_pwd = driver.find_element(By.NAME,'passwd').send_keys(Password)
 time.sleep(1)
@@ -110,44 +109,53 @@ except NoSuchElementException:
 # 输入Xbox用户名
 print("输入Xbox用户名")
 try:
-  print('[Debugger]即将自动设置Xbox用户名......')
-  print("等待界面出现后 按下回车 注意:不要自己填写ID,仅检查ID是否有效，如果无效，请修改到合适的ID，但是不要点击'现在就开始吧'按钮")
-  print("如果发现已经到了订阅页面/Xbox账号注册页面，请按下回车")
-  b=input("")
-  input_Xbox_username = driver.find_element(By.ID,'create-account-gamertag-input').send_keys(Xbox_User)
-  #这个脑残 容易卡在这里 所以手动确认一下
-  print("确认ID有效之后按下回车(不要操作页面！)")
-  a=input(" ")
-  print("你已经确认")
-  print('[Debugger]Xbox用户名为:'+Xbox_User)
-  time.sleep(3)
-# 点击开始按钮
-  print("点击开始按钮")
-  start_button = driver.find_element(By.ID,'inline-continue-control').click()
-  time.sleep(25)
-# 点击下一步按钮
+    print('[Debugger]即将自动设置Xbox用户名......')
+    input_Xbox_username = driver.find_element(By.ID,'create-account-gamertag-input').send_keys(Xbox_User)
+    print("确认ID有效之后按下回车(不要操作页面！)")
+    b=input("")
+    #这个脑残 容易卡在这里 所以手动确认一下
+    print("你已经确认")
+    print('[Debugger]Xbox用户名为:'+Xbox_User)
+    time.sleep(3)
+    #点击开始按钮
+    print("点击开始按钮")
+    start_button = driver.find_element(By.ID,'inline-continue-control').click()
+    time.sleep(25)
+    # 点击下一步按钮
 except NoSuchElementException:
-  print("没有发现取名页面,点击下一步按钮，3s")
-  time.sleep(3)
-  next_button_2 = driver.find_element(By.XPATH,'//button[@aria-label="下一步"]').click()
-  time.sleep(8)
+    print("没有发现取名页面,点击下一步按钮，3s")
+    time.sleep(3)
+    next_button_2 = driver.find_element(By.XPATH,'//button[@aria-label="下一步"]').click()
+    time.sleep(8)
 # 添加付款方式
-print('[Debugger]即将自动添加支付宝付款......')
-driver.switch_to.frame('purchase-sdk-hosted-iframe')
-add_payment_button = driver.find_element(By.XPATH, '//button[@class="primary--DXmYtnzQ base--kY64RzQE"]').click()
-time.sleep(5)
-# 选择PayPal或Alipay支付
-print("选择PayPal或Alipay支付")
-try:
-  eWallet_button = driver.find_element(By.ID,'displayId_ewallet').click()
-  time.sleep(1)
-except NoSuchElementException:
-  print("没有发现二维码，可能之前你已经开通过了，请确认页面位于支付宝签约二维码处，然后点击回车")
-  print("如果你发现页面上面已经有一个支付宝选项 则说明这个账号已经有人绑定过支付宝了 如果确定继续，请按照如下步骤操作:")
-  print("1，点击确定")
-  print("2.点击新增付款方式")
-  a=input("3.选择支付宝 确认页面位于支付宝签约二维码处，然后点击回车")
+    print('[Debugger]即将自动添加支付宝付款......')
+    driver.switch_to.frame('purchase-sdk-hosted-iframe')
+    add_payment_button = driver.find_element(By.XPATH, '//button[@class="primary--DXmYtnzQ base--kY64RzQE"]').click()
+    time.sleep(5)
+    # 选择PayPal或Alipay支付
+    print("选择PayPal或Alipay支付")
+    try:
+      #eWallet_button = driver.find_element(By.XPATH,'/html/body/section/div[1]/div/div/div/div/div[2]/div/div[4]/button[2]').click()
+      eWallet_button = driver.find_element(By.XPATH,'//*[@id="displayId_ewallet"]').click()
+      eWallet_button = driver.find_element(By.XPATH, '//*[@id="displayId_ewallet_alipay_billing_agreement"]').click()
+      time.sleep(3)
+      try:
+          #尝试填写姓名
+          input_ID = driver.find_element(By.XPATH,"/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[2]/div[1]/input").send_keys(randomUsername(5))
+          input_ID = driver.find_element(By.XPATH,"/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[2]/div[2]/input").send_keys(randomUsername(5))
+          time.sleep(5)
+          IKSJ = driver.find_element(By.XPATH,"/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[3]/input[2]").click()
+          time.sleep(4)
+      except NoSuchElementException:
+          print("未发现姓名填写页面，跳过")
+    except NoSuchElementException:
+      print("没有发现二维码，可能之前你已经开通过了，请确认页面位于支付宝签约二维码处，然后点击回车")
+      print("如果你发现页面上面已经有一个支付宝选项 则说明这个账号已经有人绑定过支付宝了 如果确定继续，请按照如下步骤操作:")
+      print("1，点击确定")
+      print("2.点击新增付款方式")
+      a=input("3.选择支付宝 确认页面位于支付宝签约二维码处，然后点击回车")
 # 等待扫码
+driver.find_element(By.XPATH,"/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[3]/input[2]").click()
 print('[Debugger]等待支付宝扫码...')
 print("开通后按回车")
 a=input("")
@@ -155,7 +163,6 @@ print("你已经手动确认,3s")
 time.sleep(3)
 # 点击继续
 print("点击继续")
-time.sleep(5)
 continue_button = driver.find_element(By.ID,'pidlddc-button-alipayContinueButton').click()
 time.sleep(3)
 # 输入城市 & 地址
@@ -171,8 +178,8 @@ except NoSuchElementException:
   print("未发现设置地址的页面 按照推测 你已经到达订阅页面 这属于极端情况 说明很有可能这不是新号 如果想继续 请继续")
   pass
 # 点击订阅按钮
-print("手动点击订阅按钮 然后回车")
-a=input(" ")
+print("点击订阅按钮")
+driver.find_element(By.XPATH,"/html/body/section/div[1]/div/div/div/div/div[2]/div/div[4]/button[2]").click()
 # 等待购买成功
 print("等待购买成功")
 time.sleep(18)
@@ -182,6 +189,7 @@ print('[Debugger]即将跳转官网为您自动设置ID.....')
 driver.get('https://www.minecraft.net/en-us/msaprofile/mygames/editprofile')
 time.sleep(10)
 #点击登录按钮
+
 home_login_button = driver.find_element(By.CSS_SELECTOR,"a[aria-label='Sign in with Microsoft account']").click()
 time.sleep(13)
 # 输入随机ID
@@ -213,3 +221,6 @@ print('账号信息:' + Email + '----' + Password + '----' + IGN)
 copy_text(Email + '----' + Password + '----' + IGN)
 print('已经为您复制好。')
 input('按回车键退出脚本。')
+
+
+######OK111
