@@ -1,3 +1,2 @@
 selenium==4.3.0
 pyperclip
-ctypes
