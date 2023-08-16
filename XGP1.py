@@ -119,8 +119,8 @@ except NoSuchElementException:
 # 输入Xbox用户名
 print("输入Xbox用户名")
 try:
-    print('[Debugger]即将自动设置Xbox用户名......')
-    WebDriverWait(driver, 15).until(
+    print('[Debugger]即将自动设置Xbox用户名......（7sec）')
+    WebDriverWait(driver, 7).until(
         EC.visibility_of_element_located((By.ID, 'create-account-gamertag-input'))).send_keys(Xbox_User)
     print("确认ID有效之后按下回车(不要操作页面！)")
     b = input("")
@@ -128,7 +128,7 @@ try:
     print("你已经确认")
     # 点击开始按钮
     print("点击开始按钮")
-    WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.ID, 'inline-continue-control'))).click()
+    WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, 'inline-continue-control'))).click()
     WebDriverWait(driver, 2000).until(
         EC.visibility_of_element_located((By.XPATH, '//button[@aria-label="下一步"]'))).click()
     # 点击下一步按钮
