@@ -65,7 +65,7 @@ print('''
 ''')
 
 # 输入邮箱密码是否已经注册xbox
-acc = input('Account:')
+acc = input('Account----Password:')
 parts = acc.split("----")
 Email = parts[0]
 Password = parts[1]
@@ -95,7 +95,12 @@ print('[Debugger]即将打开浏览器并自动购买......')
 driver.get('https://www.xbox.com/zh-HK/xbox-game-pass#join')
 # 在页面上查找29港币的PC Game pass
 print("在页面上查找29港币的PC Game pass")
-join_button = driver.find_element(By.CSS_SELECTOR, "a[data-bi-source='CFQ7TTC0KGQ8']").click()
+try:
+    time.sleep(3)
+    join_button = driver.find_element(By.CSS_SELECTOR, "a[data-bi-source='CFQ7TTC0KGQ8']").click()
+except NoSuchElementException:
+    time.sleep(5)
+    driver.find_element(By.CSS_SELECTOR, "a[data-bi-source='CFQ7TTC0KGQ8']").click()
 WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.NAME, 'loginfmt'))).send_keys(Email)
 # 输入邮箱
 print('[Debugger]即将自动输入邮箱密码登录......')
@@ -122,8 +127,8 @@ except NoSuchElementException:
 # 输入Xbox用户名
 try:
     print("输入Xbox用户名")
-    print('[Debugger]即将自动设置Xbox用户名......（7sec）')
-    WebDriverWait(driver, 7).until(
+    print('[Debugger]即将自动设置Xbox用户名......（15sec）')
+    WebDriverWait(driver, 15).until(
         EC.visibility_of_element_located((By.ID, 'create-account-gamertag-input'))).send_keys(Xbox_User)
     print("确认ID有效之后按下回车(不要操作页面！)")
     b = input("")
@@ -131,8 +136,8 @@ try:
     print("你已经确认")
     # 点击开始按钮
     print("点击开始按钮...8sec")
-    WebDriverWait(driver, 7).until(EC.visibility_of_element_located((By.ID, 'inline-continue-control'))).click()
-    WebDriverWait(driver, 8).until(
+    WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.ID, 'inline-continue-control'))).click()
+    WebDriverWait(driver, 15).until(
         EC.visibility_of_element_located((By.XPATH, '//button[@aria-label="下一步"]'))).click()
     # 点击下一步按钮
 except TimeoutException:
@@ -208,7 +213,7 @@ time.sleep(10)
 WebDriverWait(driver, 2000).until(
     EC.visibility_of_element_located((By.CSS_SELECTOR, "a[aria-label='Sign in with Microsoft account']"))).click()
 WebDriverWait(driver, 2000).until(
-    EC.visibility_of_element_located((By.CSS_SELECTOR, "input[name='profileName']"))).send_keys('KWZEXGP_' + IGN)
+    EC.visibility_of_element_located((By.CSS_SELECTOR, "input[name='profileName']"))).send_keys('KWZE_' + IGN)
 # 输入随机ID
 # 确认
 try:
@@ -218,7 +223,7 @@ except NoSuchElementException:
     time.sleep(4)
     WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "button[aria-label='Set up your Profile Name']"))).click()
 time.sleep(6)
-print('[Debugger]ID设置成功! ID为:' + 'KWZEXGP' + IGN)
+print('[Debugger]ID设置成功! ID为:' + 'KWZE_' + IGN)
 # 打开微软退款
 print('[Debugger]即将打开退款链接并自动退款......')
 driver.get('https://account.microsoft.com/services/pcgamepass/cancel?fref=billing-cancel&lang=en-US')
