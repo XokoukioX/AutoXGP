@@ -1,4 +1,6 @@
 import time
+
+from selenium.webdriver.edge.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
@@ -24,7 +26,6 @@ set_console_title("𝓢𝓬𝓻𝓲𝓹𝓽 𝓑𝔂 𝓕𝓾𝔁𝓲𝓾 modife
 warnings.filterwarnings('ignore')
 
 
-# 随机生成Xbox用户名 格式为'Sa3ura + Randomchar()'
 def randomUsername(length=16):
     base_Str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
     random_str = ''
@@ -46,6 +47,15 @@ def purchasecheck():
         print('等待中......')
         s = 2
         return False
+
+
+def phurase():
+    try:
+        time.sleep(3)
+        join_button = driver.find_element(By.XPATH,"/html/body/div[1]/div/div/div[3]/div/div/div/div[2]/div[5]/div[1]/div[2]/section/div/div/ul/li[1]/div/div[1]/div[2]/a").click()
+    except NoSuchElementException:
+        time.sleep(5)
+        driver.find_element(By.CSS_SELECTOR, "a[data-bi-source='CFQ7TTC0KGQ8']").click()
 
 
 # Logo
@@ -84,7 +94,7 @@ edge_options.add_argument('--inprivate')
 edge_options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
 
 # 创建Edge浏览器对象
-driver = webdriver.Edge('msedgedriver.exe', options=edge_options)
+driver: WebDriver = webdriver.Edge('S:\Programs\AutoXGP\msedgedriver.exe', options=edge_options)
 
 
 #询问用户是否已经设置XboxID
@@ -95,12 +105,7 @@ print('[Debugger]即将打开浏览器并自动购买......')
 driver.get('https://www.xbox.com/zh-HK/xbox-game-pass#join')
 # 在页面上查找29港币的PC Game pass
 print("在页面上查找29港币的PC Game pass")
-try:
-    time.sleep(3)
-    join_button = driver.find_element(By.CSS_SELECTOR, "a[data-bi-source='CFQ7TTC0KGQ8']").click()
-except NoSuchElementException:
-    time.sleep(5)
-    driver.find_element(By.CSS_SELECTOR, "a[data-bi-source='CFQ7TTC0KGQ8']").click()
+phurase()
 WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.NAME, 'loginfmt'))).send_keys(Email)
 # 输入邮箱
 print('[Debugger]即将自动输入邮箱密码登录......')
@@ -124,6 +129,20 @@ except NoSuchElementException:
     time.sleep(5)
     cancel_button_1 = driver.find_element(By.ID, 'iCancel').click()
     time.sleep(30)
+print("重置页面...")
+driver.get('https://www.xbox.com/zh-HK/xbox-game-pass#join')
+print("等待...")
+print("当前URL：" + driver.current_url)
+time.sleep(5)
+target_url= "https://www.xbox.com/zh-HK/xbox-game-pass#join"
+target_url = str(target_url)
+if target_url == str(driver.current_url):
+    print("页面正确，继续操作")
+    pass
+else:
+    print("当前页面不合规，尝试关闭此页面....！")
+    driver.close()
+WebDriverWait(driver,2000).until(EC.visibility_of_element_located((By.XPATH,"/html/body/div[1]/div/div/div[3]/div/div/div/div[2]/div[5]/div[1]/div[2]/section/div/div/ul/li[1]/div/div[1]/div[2]/a"))).click()
 # 输入Xbox用户名
 try:
     print("输入Xbox用户名")
@@ -141,7 +160,7 @@ try:
         EC.visibility_of_element_located((By.XPATH, '//button[@aria-label="下一步"]'))).click()
     # 点击下一步按钮
 except TimeoutException:
-    print("没有发现取名页面,点击下一步按钮")
+    print("没有发现取名页面,正在判断位置")
     WebDriverWait(driver, 8).until(EC.visibility_of_element_located((By.XPATH, '//button[@aria-label="下一步"]'))).click()
     time.sleep(8)
     # 添加付款方式
@@ -151,16 +170,18 @@ WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH, '/
 time.sleep(5)
 # 选择PayPal或Alipay支付
 print("选择PayPal或Alipay支付")
+print("喘气")
+time.sleep(5)
 try:
-    # eWallet_button = driver.find_element(By.XPATH,'/html/body/section/div[1]/div/div/div/div/div[2]/div/div[4]/button[2]').click()
-    WebDriverWait(driver, 2000).until(
-    EC.visibility_of_element_located((By.XPATH, '//*[@id="displayId_ewallet"]'))).click()
+    #driver.find_element(By.XPATH, '/html/body/section/div[1]/div/div/div/div/div[2]/div/div[4]/button[2]').click()
+    WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="displayId_ewallet"]'))).click()
     WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="displayId_ewallet_alipay_billing_agreement"]'))).click()
     try:
+        print("填写姓名")
         # 尝试填写姓名
-        WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH,"/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[2]/div[1]/input"))).send_keys(randomUsername(5))
-        WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH,"/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[2]/div[2]/input"))).send_keys(randomUsername(5))
-        WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH, "/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[3]/input[2]"))).click()
+        WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH,"/html/body/section/div[1]/div/div/div/div/div[2]/div/section/div[2]/div[1]/input"))).send_keys(randomUsername(5))
+        WebDriverWait(driver, 1).until(EC.visibility_of_element_located((By.XPATH,"/html/body/section/div[1]/div/div/div/div/div[2]/div/section/div[2]/div[2]/input"))).send_keys(randomUsername(5))
+        WebDriverWait(driver, 1).until(EC.visibility_of_element_located((By.XPATH, "/html/body/section/div[1]/div/div/div/div/div[2]/div/section/div[3]/input[2]"))).click()
         time.sleep(4)
     except NoSuchElementException:
         print("未发现姓名填写页面，跳过")
@@ -172,7 +193,7 @@ except NoSuchElementException:
     a = input("3.选择支付宝 确认页面位于支付宝签约二维码处，然后点击回车")
 # 等待扫码
 WebDriverWait(driver, 2000).until(EC.visibility_of_element_located(
-    (By.XPATH, "/html/body/section/div[1]/div/div/div/div/div/div[2]/section/div[3]/input[2]"))).click()
+    (By.XPATH, "/html/body/section/div[1]/div/div/div/div/div[2]/div/section/div[3]/input[2]"))).click()
 print('[Debugger]等待支付宝扫码...')
 print("开通后按回车")
 a = input("")
