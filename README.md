@@ -29,7 +29,6 @@ python3 autoXGP.py
 
 1.自动设置MC皮肤
 
-
 2.增加更多特殊情况的适配
 
 
