@@ -94,8 +94,12 @@ edge_options.add_argument('--inprivate')
 edge_options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
 
 # 创建Edge浏览器对象
-driver: WebDriver = webdriver.Edge('S:\Programs\AutoXGP\msedgedriver.exe', options=edge_options)
-
+# 创建Edge浏览器对象
+try:
+    driver: WebDriver = webdriver.Edge('./msedgedriver.exe', options=edge_options)
+except OSError:
+    print("没有找到驱动，请参考README下载驱动并且移动到本目录")
+    exit()
 
 #询问用户是否已经设置XboxID
 #          废弃        #
