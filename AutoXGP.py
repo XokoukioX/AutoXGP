@@ -27,7 +27,6 @@ set_console_title("autoxgp by huaji")
 warnings.filterwarnings('ignore')
 
 
-# 随机生成Xbox用户名 格式为'Sa3ura + Randomchar()'
 def randomUsername(length=16):
     base_Str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
     random_str = ''
