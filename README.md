@@ -22,14 +22,14 @@ python3 AutoXGP.py
 ------------
 
 
-####HINT:推荐搭配[XGP注册工具](Https://Github.Com/Xokoukiox/Automsacc "XGP注册工具")使用
+>HINT:推荐搭配[XGP注册工具](Https://Github.Com/Xokoukiox/Automsacc "XGP注册工具")使用
 
 
 >本地测试完美运行
 
 >![IMG](https://github.com/XokoukioX/AutoXGP/assets/52972345/35c9edb8-a651-4094-ad00-01f83bc4364f)
 
-##更新日志
+#更新日志
 2023/12/24
 合并PR,增加了对皮肤功能的支持(....虽然我不知道为什么你要强制人家设置皮肤..算了吧反正也没多少人会用,以后或许会增加一个跳过选项吧)
 >PS:如果需要原版的XGP,可以在backup文件夹里面找到
