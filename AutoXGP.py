@@ -229,14 +229,14 @@ dlg = app["打开"]
 #选择文件地址输入框，点击激活
 dlg["Toolbar3"].click()
 #键盘输入上传文件的路径
-send_keys("C:\\Users\\leiyu\\Desktop\\新建文件夹2")
+send_keys("C:\\Users\\leiyu\\Desktop\\新建文件夹2")#这里修改为你存放皮肤文件的路径注意是"\\"
 time.sleep(2)
 #键盘输入回车，打开该路径
 send_keys("{VK_RETURN}")
 time.sleep(1)
 
 #选中文件名输入框，输入文件名
-dlg["文件名(&N):Edit"].type_keys("3b83842a32159a37.png")
+dlg["文件名(&N):Edit"].type_keys("3b83842a32159a37.png")#这里是你图片的文件名,注意后缀
 time.sleep(1)
 
 #点击打开
