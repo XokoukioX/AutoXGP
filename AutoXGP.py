@@ -106,14 +106,14 @@ print("点击登录")
 WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.ID, 'idSIButton9'))).click()
 # 点击保持登录状态
 print("点击保持登录状态")
-WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.ID, 'idSIButton9'))).click()
+WebDriverWait(driver, 2000).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="acceptButton"]'))).click()
 # 输入Xbox用户名
 try:
     print("输入Xbox用户名")
     print('[Debugger]即将自动设置Xbox用户名......（15sec）')
     WebDriverWait(driver, 5).until(
         EC.visibility_of_element_located((By.ID, 'create-account-gamertag-input'))).send_keys(Xbox_User)
-    print("确认ID有效之后按下回车(不要操作页面！)")
+    print("确认ID有效之后按下回车(不要操作浏览器！)")
     b = input("")
     # 这个脑残 容易卡在这里 所以手动确认一下
     print("你已经确认")
@@ -126,6 +126,8 @@ try:
     time.sleep(4)
     WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//button[@aria-label="下一步"]'))).click()
     # 点击下一步按钮
+    #发送诊断数据
+    WebDriverWait(driver,4).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="inline-continue-control"]'))).click()
 except TimeoutException:
     print("没有发现取名页面,点击下一步按钮")
     WebDriverWait(driver, 8).until(EC.visibility_of_element_located((By.XPATH, '//button[@aria-label="下一步"]'))).click()
